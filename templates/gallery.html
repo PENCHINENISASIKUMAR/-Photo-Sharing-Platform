@@ -1,108 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Gallery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #f8fafc; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-x: hidden; }
-        .bg-blob { position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%); border-radius: 50%; top: -200px; left: -200px; animation: float 10s ease-in-out infinite; z-index: -1; }
-        .bg-blob-2 { position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%); border-radius: 50%; bottom: -200px; right: -200px; animation: float 12s ease-in-out infinite reverse; z-index: -1; }
-        @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, 30px); } }
-
-        .container { max-width: 1200px; width: 100%; margin: auto; position: relative; z-index: 1; }
-        
-        /* PIN Entry */
-        .pin-box { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(25px); padding: 70px 50px; border-radius: 30px; box-shadow: 0 30px 60px -15px rgba(0,0,0,0.6); max-width: 500px; margin: auto; text-align: center; border: 1px solid rgba(255,255,255,0.08); animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        .pin-box h1 { font-family: 'Outfit', sans-serif; font-size: 38px; margin-bottom: 15px; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .pin-box p { color: #94a3b8; margin-bottom: 40px; font-size: 16px; }
-        .pin-input { width: 100%; padding: 20px; font-size: 32px; text-align: center; letter-spacing: 20px; background: rgba(15, 23, 42, 0.8); border: 2px solid #334155; border-radius: 20px; color: white; outline: none; margin-bottom: 30px; transition: all 0.3s ease; font-family: 'Inter', sans-serif; }
-        .pin-input:focus { border-color: #818cf8; box-shadow: 0 0 0 6px rgba(129, 140, 248, 0.15); }
-        .btn { padding: 18px 36px; font-size: 17px; font-weight: 600; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 16px; cursor: pointer; width: 100%; transition: all 0.3s ease; font-family: 'Inter', sans-serif; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4); }
-        .error { color: #f87171; margin-top: 20px; font-weight: 500; font-size: 15px; }
-
-        /* Gallery */
-        .gallery-header { text-align: center; margin-bottom: 50px; animation: fadeInUp 0.6s ease; }
-        .gallery-header h1 { font-family: 'Outfit', sans-serif; font-size: 42px; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .gallery-grid { columns: 3; column-gap: 20px; }
-        @media (max-width: 900px) { .gallery-grid { columns: 2; } }
-        @media (max-width: 600px) { .gallery-grid { columns: 1; } }
-        .gallery-grid img { width: 100%; margin-bottom: 20px; border-radius: 16px; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); break-inside: avoid; }
-        .gallery-grid img:hover { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-
-        /* Lightbox */
-        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; backdrop-filter: blur(20px); }
-        .lightbox.active { display: flex; }
-        .lightbox img { max-width: 90%; max-height: 90%; border-radius: 16px; box-shadow: 0 0 60px rgba(0,0,0,0.9); animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .lightbox-close { position: absolute; top: 30px; right: 40px; font-size: 50px; color: white; cursor: pointer; line-height: 1; transition: all 0.3s; }
-        .lightbox-close:hover { color: #818cf8; transform: rotate(90deg); }
-        
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .hidden { display: none !important; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#f8fafc;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden}
+.bg-blob{position:fixed;width:600px;height:600px;background:radial-gradient(circle,rgba(99,102,241,.15) 0%,transparent 70%);border-radius:50%;top:-200px;left:-200px;animation:float 10s ease-in-out infinite;z-index:-1}
+.bg-blob-2{position:fixed;width:500px;height:500px;background:radial-gradient(circle,rgba(168,85,247,.15) 0%,transparent 70%);border-radius:50%;bottom:-200px;right:-200px;animation:float 12s ease-in-out infinite reverse;z-index:-1}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,30px)}}
+.container{max-width:1200px;width:100%;margin:auto;position:relative;z-index:1}
+.pin-box{background:rgba(30,41,59,.6);backdrop-filter:blur(25px);padding:70px 50px;border-radius:30px;box-shadow:0 30px 60px -15px rgba(0,0,0,.6);max-width:500px;margin:auto;text-align:center;border:1px solid rgba(255,255,255,.08);animation:fadeInUp .8s cubic-bezier(.4,0,.2,1)}
+.pin-box h1{font-family:'Outfit',sans-serif;font-size:38px;margin-bottom:15px;background:linear-gradient(to right,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pin-box p{color:#94a3b8;margin-bottom:40px;font-size:16px}
+.pin-input{width:100%;padding:20px;font-size:32px;text-align:center;letter-spacing:20px;background:rgba(15,23,42,.8);border:2px solid #334155;border-radius:20px;color:#fff;outline:none;margin-bottom:30px;transition:all .3s ease;font-family:'Inter',sans-serif}
+.pin-input:focus{border-color:#818cf8;box-shadow:0 0 0 6px rgba(129,140,248,.15)}
+.btn{padding:18px 36px;font-size:17px;font-weight:600;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:16px;cursor:pointer;width:100%;transition:all .3s ease;font-family:'Inter',sans-serif}
+.btn:hover{transform:translateY(-3px);box-shadow:0 15px 35px rgba(99,102,241,.4)}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.error{color:#f87171;margin-top:20px;font-weight:500;font-size:15px;min-height:20px}
+.gallery-header{text-align:center;margin-bottom:50px;animation:fadeInUp .6s ease}
+.gallery-header h1{font-family:'Outfit',sans-serif;font-size:42px;background:linear-gradient(to right,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.gallery-header p{color:#94a3b8;margin-top:12px;font-size:15px}
+.gallery-grid{columns:3;column-gap:20px}
+@media (max-width:900px){.gallery-grid{columns:2}}
+@media (max-width:600px){.gallery-grid{columns:1}.pin-box{padding:50px 30px}.gallery-header h1{font-size:30px}}
+.gallery-grid img{width:100%;margin-bottom:20px;border-radius:16px;cursor:pointer;transition:all .4s cubic-bezier(.4,0,.2,1);break-inside:avoid;display:block}
+.gallery-grid img:hover{transform:scale(1.02);box-shadow:0 20px 40px rgba(0,0,0,.5)}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.98);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;backdrop-filter:blur(20px)}
+.lightbox.active{display:flex}
+.lightbox img{max-width:90%;max-height:90%;border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9);animation:zoomIn .4s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes zoomIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.lightbox-close{position:absolute;top:30px;right:40px;font-size:50px;color:#fff;cursor:pointer;line-height:1;transition:all .3s}
+.lightbox-close:hover{color:#818cf8;transform:rotate(90deg)}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hidden{display:none!important}
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
 </head>
 <body>
-    <div class="bg-blob"></div>
-    <div class="bg-blob-2"></div>
-    <div class="container">
-        <div id="pinSection" class="pin-box">
-            <h1>🔒 Event Gallery</h1>
-            <p>Enter the 6-digit PIN to unlock your photos.</p>
-            <input type="text" id="pinInput" class="pin-input" maxlength="6" placeholder="••••••" inputmode="numeric" pattern="[0-9]*">
-            <button class="btn" onclick="verifyPin()">Unlock Gallery</button>
-            <div id="errorMsg" class="error"></div>
-        </div>
+<div class="bg-blob"></div>
+<div class="bg-blob-2"></div>
+<div class="container">
+  <div id="pinSection" class="pin-box">
+    <h1>&#128274; Event Gallery</h1>
+    <p>Enter the 6-digit PIN to unlock your photos.</p>
+    <input type="text" id="pinInput" class="pin-input" maxlength="6" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+    <button class="btn" id="unlockBtn" onclick="verifyPin()">Unlock Gallery</button>
+    <div id="errorMsg" class="error"></div>
+  </div>
 
-        <div id="gallerySection" class="hidden">
-            <div class="gallery-header"><h1 id="eventTitle"></h1></div>
-            <div id="galleryGrid" class="gallery-grid"></div>
-        </div>
+  <div id="gallerySection" class="hidden">
+    <div class="gallery-header">
+      <h1 id="eventTitle"></h1>
+      <p id="photoCount"></p>
     </div>
+    <div id="galleryGrid" class="gallery-grid"></div>
+  </div>
+</div>
 
-    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-        <span class="lightbox-close">&times;</span>
-        <img id="lightboxImg" src="" alt="Zoomed">
-    </div>
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">&times;</span>
+  <img id="lightboxImg" src="" alt="Zoomed">
+</div>
 
-    <script>
-        const shareToken = "{{ share_token }}";
-        const get = (id) => document.getElementById(id);
+<script>
+const shareToken = "{{ share_token }}";
+const get = (id) => document.getElementById(id);
 
-        async function verifyPin() {
-            const pin = get("pinInput").value.trim();
-            const errorMsg = get("errorMsg");
-            if (pin.length !== 6) { errorMsg.textContent = "Please enter a 6-digit PIN."; return; }
-            try {
-                const res = await fetch(`/api/gallery/${shareToken}/verify`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pin: pin }) });
-                const data = await res.json();
-                if (!res.ok) { errorMsg.textContent = data.message; return; }
-                
-                get("pinSection").classList.add("hidden");
-                get("gallerySection").classList.remove("hidden");
-                get("eventTitle").textContent = data.event_name;
-                
-                const grid = get("galleryGrid");
-                grid.innerHTML = "";
-                if (data.photos.length === 0) { grid.innerHTML = "<p style='color:#9ca3af;'>No photos in this gallery yet.</p>"; return; }
-                
-                data.photos.forEach(photo => {
-                    const img = document.createElement("img");
-                    img.src = photo.url;
-                    img.alt = "Gallery Photo";
-                    img.loading = "lazy";
-                    img.onclick = () => openLightbox(photo.url);
-                    grid.appendChild(img);
-                });
-            } catch (error) { errorMsg.textContent = "Server error. Please try again."; }
-        }
+async function verifyPin() {
+  const pin = get("pinInput").value.trim();
+  const errorMsg = get("errorMsg");
+  const btn = get("unlockBtn");
 
-        function openLightbox(src) { get("lightboxImg").src = src; get("lightbox").classList.add("active"); }
-        function closeLightbox() { get("lightbox").classList.remove("active"); get("lightboxImg").src = ""; }
-        get("pinInput").addEventListener("keypress", (e) => { if (e.key === "Enter") verifyPin(); });
-    </script>
+  if (pin.length !== 6 || !/^\d{6}$/.test(pin)) {
+    errorMsg.textContent = "Please enter a 6-digit PIN.";
+    return;
+  }
+  errorMsg.textContent = "";
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Unlocking...';
+
+  try {
+    const res = await fetch(`/api/gallery/${shareToken}/verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pin })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      errorMsg.textContent = data.message || "Incorrect PIN.";
+      btn.disabled = false;
+      btn.textContent = "Unlock Gallery";
+      return;
+    }
+    showGallery(data);
+  } catch (err) {
+    errorMsg.textContent = "Server error. Please try again.";
+    btn.disabled = false;
+    btn.textContent = "Unlock Gallery";
+  }
+}
+
+function showGallery(data) {
+  get("pinSection").classList.add("hidden");
+  get("gallerySection").classList.remove("hidden");
+  get("eventTitle").textContent = data.event_name;
+  const count = data.photos.length;
+  get("photoCount").textContent = `${count} photo${count === 1 ? "" : "s"} in this gallery`;
+
+  const grid = get("galleryGrid");
+  grid.innerHTML = "";
+  if (count === 0) {
+    grid.innerHTML = "<p style='color:#9ca3af;text-align:center;'>No photos in this gallery yet.</p>";
+    return;
+  }
+  data.photos.forEach(photo => {
+    const img = document.createElement("img");
+    img.src = photo.url;
+    img.alt = "Gallery Photo";
+    img.loading = "lazy";
+    img.onclick = () => openLightbox(photo.url);
+    grid.appendChild(img);
+  });
+}
+
+function openLightbox(src) {
+  get("lightboxImg").src = src;
+  get("lightbox").classList.add("active");
+}
+function closeLightbox() {
+  get("lightbox").classList.remove("active");
+  get("lightboxImg").src = "";
+}
+
+get("pinInput").addEventListener("keypress", (e) => {
+  if (e.key === "Enter") verifyPin();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeLightbox();
+});
+</script>
 </body>
 </html>
